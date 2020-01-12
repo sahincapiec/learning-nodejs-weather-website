@@ -14,8 +14,10 @@ const getWeather = ({ longitude, latitude }, callback) => {
     }
     else {
       const currently = data.body.currently
-      if (currently) {
-        callback(undefined, { summary: currently.summary, temperature: currently.temperature, precipProbability: currently.precipProbability })
+      const hourly = data.body.hourly
+      if (currently && hourly) {
+        const forecast = `${hourly.summary} It is currently ${currently.temperature} degress out. There is a ${currently.precipProbability * 100}% chance of rain.`
+        callback(undefined, { summary: currently.summary, temperature: currently.temperature, precipProbability: currently.precipProbability, forecast })
       }
       else {
         callback('Unable to find the weather for given location', undefined)
